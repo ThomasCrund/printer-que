@@ -96,17 +96,17 @@ async function checkAuth(req, res, next) {
         var requestTimeSec = Math.round(requestsDate.getTime()/1000);
         if (requestTimeSec < userData[0].sessionExp) {
             req.UserId = userData[0].id;
-            console.log("Went Through", req.UserId);
+            //console.log("Went Through", req.UserId);
             next();
         } else {
-            console.log("Failed Exp");
+            //console.log("Failed Exp");
             res.status(401).send();
         }
     } else {
-        console.log("Failed Equal");
+        //console.log("Failed Equal");
         res.status(401).send();
     }
-    console.log(userData);
+    //console.log(userData);
 }
 
 module.exports = {

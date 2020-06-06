@@ -16,5 +16,13 @@ module.exports = {
                 resolve( rows );
             } );
         } );
+    },
+    async getUserData(userId) {
+        const sql = "SELECT * FROM user WHERE user.id = ?";
+        var dataBaseUserData = await this.query(sql, userId);
+        if (dataBaseUserData.length == 1) {
+            return dataBaseUserData[0];
+        }
+        return null;
     }
 };
