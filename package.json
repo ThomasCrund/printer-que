@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && rm -rf backend/public && mv build backend/public",
+    "buildWin": "react-scripts build && del-cli backend/public && move-cli build/ backend/public",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -32,5 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "del-cli": "^3.0.1",
+    "move-cli": "^1.2.1"
   }
 }
