@@ -23,6 +23,46 @@ router.get('/', async function(req, res) {
     })
 })
 
+router.get('/domain', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    res.status(501);
+    res.send({
+        'userid': req.UserId
+    })
+})
+
+router.post('/join', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    res.status(501);
+    res.send({
+        'userid': req.UserId
+    })
+})
+
+router.post('/create', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    res.status(501);
+    res.send({
+        'userid': req.UserId
+    })
+})
+
+router.get('/invite', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    res.status(501);
+    res.send({
+        'userid': req.UserId
+    })
+})
+
+router.get('/users', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    if (UserData)
+    res.status(501);
+    res.send({
+        'users': req.UserId
+    })
+})
 
 
 router.post('/example', async function(req, res) {
