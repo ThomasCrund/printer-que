@@ -1,8 +1,8 @@
 const mysql = require('mysql');
 var connection = mysql.createConnection({
     host: process.env.SQLHOST,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
+    user: process.env.SQLUSERNAME,
+    password: process.env.SQLPASSWORD,
     database: "printer"
 })
 
