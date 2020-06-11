@@ -71,7 +71,7 @@ function Topics() {
           <Link to={`${url}/SignUp`}>Click here to SignUp</Link>
         </li>
         <li>
-          <Link to={`${url}/WhatisThis`}>What is PrinterQue?</Link>
+          <Link to={`${url}/What is this ?`}>What is PrinterQue?</Link>
         </li>
       </ul>
 
