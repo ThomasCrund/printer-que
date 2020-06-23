@@ -15,7 +15,7 @@ async function verify(token) {
       idToken: token,
       audience: '352457740735-jfb04rk50ha6orp611bei2sko4mfn6di.apps.googleusercontent.com',
   });
-  return payload = ticket.getPayload();
+  return ticket.getPayload();
 }
 
 router.post('/login', jsonParser, async function(req, res) {
@@ -36,9 +36,9 @@ router.post('/login', jsonParser, async function(req, res) {
         const sql = "SELECT * FROM user WHERE user.id = ?";
 
         var dataBaseUserData = await database.query(sql, userid);
-        if (dataBaseUserData.length == 1) {
-            var sessionToken = await CreateAccessToken(userid, payload['exp']);
-            if (sessionToken == null) { throw new error("User not in database"); };
+        if (dataBaseUserData.length === 1) {
+            let sessionToken = await CreateAccessToken(userid, payload['exp']);
+            if (sessionToken == null) { throw new Error("User not in database"); };
             res.send({
                 "response": "Login Success: A Exisiting user returning",
                 "loginStatus": true,
@@ -46,9 +46,14 @@ router.post('/login', jsonParser, async function(req, res) {
                 "sessionToken": sessionToken
             })
         } else {
-            await database.query("INSERT INTO user (id, email) VALUES ('" + userid + "', '" + payload['email'] + "')");
-            var sessionToken = await CreateAccessToken(userid, payload['exp']);
-            if (sessionToken == null) { throw new error("User not in database") };
+            const domain = payload['hd'];
+            if (domain != null) {
+                await database.query("INSERT INTO user (id, email,domain) VALUES ('" + userid + "', '" + payload['email'] + "', '" + domain + "')");
+            } else {
+                await database.query("INSERT INTO user (id, email) VALUES ('" + userid + "', '" + payload['email'] + "')");
+            }
+            let sessionToken = await CreateAccessToken(userid, payload['exp']);
+            if (sessionToken == null) { throw new Error("User not in database") };
             res.send({
                 "response": "Login Success: A new user joining the platform",
                 "loginStatus": true,
@@ -71,7 +76,7 @@ async function CreateAccessToken(id, exp) {
     var secureToken = await makeid(18);
     var createTokenData =  await database.query("UPDATE user SET sessionExp = '" + exp + "', sessionToken = '" + secureToken + "' WHERE id = '" + id + "'")
     //console.log(createTokenData);
-    if (createTokenData.changedRows == 1) {
+    if (createTokenData.changedRows === 1) {
         return secureToken;
     } else {
         return null;
@@ -92,7 +97,7 @@ async function checkAuth(req, res, next) {
     var sessionToken = req.get("Authorization");
     var requestsDate = new Date();
     var userData = await database.query("SELECT id,sessionExp FROM user WHERE user.sessionToken = ?", sessionToken);
-    if (userData.length == 1) {
+    if (userData.length === 1) {
         var requestTimeSec = Math.round(requestsDate.getTime()/1000);
         if (requestTimeSec < userData[0].sessionExp) {
             req.UserId = userData[0].id;
