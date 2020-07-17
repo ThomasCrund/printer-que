@@ -16,7 +16,7 @@ router.post('/create', async function(req, res) {
     if (UserData.organisationId != null) {         
         res.send({
             'success': false,
-            'message': "In Org allready"
+            'message': "already in org"
         })
         return;
     }
@@ -59,42 +59,119 @@ router.get('/', async function(req, res) {
 router.get('/domain', async function(req, res) {
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
 
-    var OrgData = await database.query("SELECT domain FROM organisation WHERE organisation.id = ?", UserData.organisationId);
+    if (UserData.domain == null) {
+        res.send({
+            'orgAvalible': false,
+        })
+        return;
+    }
+
+    var OrgData = await database.query("SELECT name FROM organisation WHERE organisation.domain = ?", UserData.domain);
 
     console.log(OrgData);
-    res.status(501);
     res.send({
-        'userid': req.UserId
+        'orgAvalible': (OrgData.length > 0) ? true : false,
+        'name': OrgData[0].name
+    })
+})
+
+router.get('/token', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+
+    if (UserData.domain == null) {
+        res.send({
+            'orgAvalible': false,
+        })
+        return;
+    }
+
+    var OrgData = await database.query("SELECT name FROM organisation WHERE organisation.inviteToken = ?", req.body.inviteToken);
+
+    console.log(OrgData);
+    res.send({
+        'orgAvalible': (OrgData.length > 0) ? true : false,
+        'name': OrgData[0].name
     })
 })
 
 router.post('/join', async function(req, res) {
+    /**
+     * Request Formal
+     * {
+     *  "domain": boolean - for whether to join based on the users domain
+     *  "inviteToken": string - 6 character string to join an organisation throught a link
+     * }
+     */
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
-    res.status(501);
-    res.send({
-        'userid': req.UserId
-    })
-})
 
-router.post('/create', async function(req, res) {
-    var UserData = await database.getUserData(req.UserId)  // Get the user's data
-    res.status(501);
-    res.send({
-        'userid': req.UserId
-    })
+    if (UserData.organisationId != null) {
+        res.send({
+            'success': false,
+            'message': 'user already in organisation'
+        })
+        return;
+    }
+
+    if (req.body.domain === true) {
+        if (UserData.domain == null) {
+            res.send({
+                'success': false,
+                'message': 'user not in a domain'
+            })
+            return;
+        }
+    
+        let OrgData = await database.query("SELECT id FROM organisation WHERE organisation.domain = ?", UserData.domain);
+        let updateSQL = `UPDATE user SET organisationId = ${OrgData[0].id}, role = 'user'  WHERE id = '${UserData.id}'`;       
+        let updateResponse = await database.query(updateSQL)
+        console.log(updateResponse);
+        if (updateResponse.affectedRows === 1) {
+            res.send({
+                "success": true,
+                "role": "user"
+            })
+        }
+    } else {
+        var OrgData = await database.query("SELECT id,name FROM organisation WHERE organisation.inviteToken = ?", req.body.inviteToken);
+        if (OrgData.length > 0) {
+            let updateSQL = `UPDATE user SET organisationId = ${OrgData[0].id}, role = 'user'  WHERE id = '${UserData.id}'`;       
+            let updateResponse = await database.query(updateSQL)
+            console.log(updateResponse);
+            if (updateResponse.affectedRows === 1) {
+                res.send({
+                    "success": true,
+                    "role": "user"
+                })
+            }
+        }
+    }
 })
 
 router.get('/invite', async function(req, res) {
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
-    res.status(501);
+    
+    var OrgData = await database.query("SELECT inviteToken FROM organisation WHERE organisation.id = ?", UserData.organisationId);
+    let token = OrgData[0].inviteToken;
+    if (token == null) {
+        token = await makeid(6);
+        let updateRes = await database.query(`UPDATE organisation SET inviteToken = '${token}' WHERE organisation.id = ?`, UserData.organisationId);
+        if (updateRes.affectedRows !== 1) {
+            res.send({
+                "Success": false,
+                "message": "Internal Sever Error"
+            })
+        }
+    }
+
     res.send({
-        'userid': req.UserId
+        'token': token
     })
 })
 
 router.get('/users', async function(req, res) { // Return the list of users for the admin to see
-    console.log("Users")
+    console.log("Users");
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    console.log(UserData);
     if (UserData.role === "admin") {
         var userList = await database.query("SELECT email,id,role FROM user WHERE user.organisationId = ?", UserData.organisationId);
         console.log(userList);
@@ -108,6 +185,39 @@ router.get('/users', async function(req, res) { // Return the list of users for 
 
 })
 
+router.delete('/users/:id', async function(req, res) {
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    if (UserData.role === "admin") {
+        var userList = await database.query(`UPDATE user SET user.organisationId = NULL WHERE user.id = ? AND user.organisationId = '${UserData.organisationId}'`, req.params.id);
+        res.send({
+            'success': true,
+        })
+    } else {
+        res.status(403);
+        res.send();
+    }
+
+})
+
+router.put('/users/:id', async function(req, res) {
+    /**
+     * Request Data
+     * {
+     *  "role": string 
+     * }
+     */
+    var UserData = await database.getUserData(req.UserId)  // Get the user's data
+    if (UserData.role === "admin") {
+        var userList = await database.query(`UPDATE user SET user.role = '${req.body.role}' WHERE user.id = ? AND user.organisationId = '${UserData.organisationId}'`, req.params.id);
+        res.send({
+            'success': true,
+        })
+    } else {
+        res.status(403);
+        res.send();
+    }
+
+})
 
 router.post('/example', async function(req, res) {
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
@@ -115,5 +225,15 @@ router.post('/example', async function(req, res) {
         'userid': req.UserId
     })
 })
+
+async function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 module.exports = {router};

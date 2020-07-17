@@ -17,6 +17,7 @@ router.use(bodyParser.json())
 
 //Setup Api's
 router.use('/org', require('./organisation').router);
+router.use('/printer', require('./printer').router);
 
 
 //Api Template

@@ -105,11 +105,11 @@ async function checkAuth(req, res, next) {
             next();
         } else {
             //console.log("Failed Exp");
-            res.status(401).send();
+            res.status(401).send({ "auth": false, "message": "time expired"});
         }
     } else {
         //console.log("Failed Equal");
-        res.status(401).send();
+        res.status(401).send({ "auth": false, "message": "incorrect token"});
     }
     //console.log(userData);
 }
