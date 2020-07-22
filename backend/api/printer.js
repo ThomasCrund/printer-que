@@ -7,7 +7,7 @@ router.get('/', async function(req, res) {
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
     if (UserData.organisationId == null) { res.send({ 'inOrg': false, }); return; } //Check to make sure the user has an id
 
-    var PrinterList = await database.query("SELECT printerName,printerType,currentJobId FROM printer WHERE printer.organisationId = ?", UserData.organisationId);
+    var PrinterList = await database.query("SELECT printerName,printerType,currentJobId,id FROM printer WHERE printer.organisationId = ?", UserData.organisationId);
     
 
     res.send({
