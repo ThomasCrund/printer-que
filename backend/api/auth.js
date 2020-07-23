@@ -37,7 +37,7 @@ router.post('/login', jsonParser, async function(req, res) {
 
         var dataBaseUserData = await database.query(sql, userid);
         if (dataBaseUserData.length === 1) {
-            let sessionToken = await CreateAccessToken(userid, payload['exp']);
+            let sessionToken = await CreateAccessToken(userid, payload['exp'] + 604800);
             if (sessionToken == null) { throw new Error("User not in database"); };
             res.send({
                 "response": "Login Success: A Exisiting user returning",
@@ -74,7 +74,7 @@ router.post('/login', jsonParser, async function(req, res) {
 
 async function CreateAccessToken(id, exp) {
     var secureToken = await makeid(18);
-    var createTokenData =  await database.query("UPDATE user SET sessionExp = '" + exp + "', sessionToken = '" + secureToken + "' WHERE id = '" + id + "'")
+    var createTokenData =  await database.query("UPDATE user SET sessionExp = " + exp + ", sessionToken = '" + secureToken + "' WHERE id = '" + id + "'")
     //console.log(createTokenData);
     if (createTokenData.changedRows === 1) {
         return secureToken;
