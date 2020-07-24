@@ -37,7 +37,7 @@ class App extends React.Component{
                         <Route path="/" exact component={Dashboard}/>
                         <Route path="/jobs/new" exact component={FileDashboard}/>
                         <Route path="/jobs" exact> <FileList token={this.state.token}/> </Route>
-                        <Route path="/jobs/:id" exact> <Job token={this.state.token}/> </Route>
+                        <Route path="/jobs/:id" exact render={(renderProps) => <Job {...renderProps} token={this.state.token}/>}/>
                         <Route path="/shapes" exact component={Empty}/>
                     </Switch>
                 </main>

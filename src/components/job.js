@@ -1,20 +1,68 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 class Job extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            job: {}
+        }
+    }
+
     async componentDidMount() {
-        let { id } = useParams();
 
-        let response = await Axios.get('/api/job/' + id, {headers: {'Authorization': this.props.token}})
+        console.log(this)
+        let response = await Axios.get('/api/job/' + this.props.match.params.id, {headers: {'Authorization': this.props.token}})
 
-        console.log(response);
+        
+        if (response.data.success !== false) {
+            console.log("success")
+            this.setState({
+                job: response.data.job
+            })
+        } else {
+            console.log(response);
+        }
     }
 
     render() {
+        console.log(this.state);
         return (
             <div>Test</div>
         )
+    }
+
+    updateName = (name) => {
+        this.updateJob({
+            jobName: name
+        })
+    }
+
+    updateDescription = (desc) => {
+        this.updateJob({
+            description: desc
+        })
+    }
+
+    updateSettings = (settings) => {
+        this.updateJob({
+            settings: settings
+        })
+    }
+
+    updatePriority = (priority) => {
+        this.updateJob({
+            priority: priority
+        })
+    }
+
+    updateJob = (data) => {
+        Axios.put('/api/job/' + this.props.match.params.id, 
+                    data,
+                    { //CONFIG
+                        headers: {'Authorization': this.props.token}
+                    })
     }
 }
 
