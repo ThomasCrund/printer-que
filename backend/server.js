@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 
+if (process.env.NODE_ENV !== 'production'){
+    require('longjohn');
+}
+
 // Setup Port
 const port = 8080;
 

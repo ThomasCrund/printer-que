@@ -1,102 +1,57 @@
 import React from 'react';
 import './App.css';
-import LoginButton from './components/LoginButton'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch
-} from "react-router-dom";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
+import FileDashboard from "./components/FileDashboard";
+import FileList from "./components/FileList";
+import Empty from "./components/Empty";
+import {BrowserRouter,Route,Switch} from "react-router-dom";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+import Job from './components/job';
 
 
+class App extends React.Component{
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
 
+    constructor(props) {
+        super(props);
+     
+        const { cookies } = props;
+        this.state = {
+            token: cookies.get('token') || ''
+        };
+    }
 
-export default function NestingExample() {
-  return (
-    
-    <Router>
-      <div className="App">
-      Printer Que Application
-      <LoginButton/>
-    </div>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/SignUp">Sign Up</Link>
-          </li>
-        </ul>
+    render() {
+        return (
+            <BrowserRouter>
+            <React.Fragment>
+                <main>
+                    <Header tokenHandle={this.sessionToken} />
+                    <Sidebar />
+                    <Switch>
+                        <Route path="/" exact component={Dashboard}/>
+                        <Route path="/jobs/new" exact component={FileDashboard}/>
+                        <Route path="/jobs" exact> <FileList token={this.state.token}/> </Route>
+                        <Route path="/jobs/:id" exact> <Job token={this.state.token}/> </Route>
+                        <Route path="/shapes" exact component={Empty}/>
+                    </Switch>
+                </main>
+            </React.Fragment>
+            </BrowserRouter>
+        );
+    }
 
-        <hr />
+    sessionToken = (token) => {
+        const { cookies } = this.props;
+ 
+        cookies.set('token', token, { path: '/' });
+        this.setState({ token });
+    }
+};
 
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/SignUp">
-            <Topics />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function Topics() {
-  // The `path` lets us build <Route> paths that are
-  // relative to the parent route, while the `url` lets
-  // us build relative links.
-  let { path, url } = useRouteMatch();
-
-  return (
-    <div>
-      <h2>Options</h2>
-      <ul>
-        <li>
-          <Link to={`${url}/Login`}>Login if you are already part of PrinterQue</Link>
-        </li>
-        <li>
-          <Link to={`${url}/SignUp`}>Click here to SignUp</Link>
-        </li>
-        <li>
-          <Link to={`${url}/What is this ?`}>What is PrinterQue?</Link>
-        </li>
-      </ul>
-
-      <Switch>
-        <Route exact path={path}>
-          <h3>Please don't go in my no no square</h3>
-        </Route>
-        <Route path={`${path}/:topicId`}>
-          <Topic />
-        </Route>
-      </Switch>
-    </div>
-  );
-}
-
-function Topic() {
-  // The <Route> that rendered this component has a
-  // path of `/topics/:topicId`. The `:topicId` portion
-  // of the URL indicates a placeholder that we can
-  // get from `useParams()`.
-  let { topicId } = useParams();
-
-  return (
-    <div>
-      <h3>{topicId}</h3>
-    </div>
-  );
-}
+export default withCookies(App);

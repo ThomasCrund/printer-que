@@ -1,0 +1,47 @@
+.cardGrid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin: 30px 0;
+    column-gap: 10px;
+}
+
+.card{
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    justify-items: start;
+    align-items: center;
+    padding: 25px;
+}
+
+.card img{
+    width: 50px;
+}
+
+.heading{
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.info{
+    font-style: italic;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: #A6ACBE;
+    padding: 5px 0;
+}
+
+@media(max-width:950px){
+    
+    .card{
+        grid-template-columns: 50px 1fr;
+        padding: 20px;
+    }
+    
+    .card img{
+        width: 30px;
+    }
+}
