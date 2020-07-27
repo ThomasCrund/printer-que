@@ -6,12 +6,13 @@ import Dashboard from "./components/Dashboard";
 import FileDashboard from "./components/FileDashboard";
 import FileList from "./components/FileList";
 import Empty from "./components/Empty";
-import {BrowserRouter,Route,Switch} from "react-router-dom";
+import {BrowserRouter,Route,Switch, Redirect} from "react-router-dom";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import Job from './components/job';
 import PrivateRoute from './components/PrivateRoute';
 import Axios from 'axios';
+import Login from './components/login';
 
 
 class App extends React.Component{
@@ -25,7 +26,7 @@ class App extends React.Component{
         const { cookies } = props;
 
         this.state = {
-            token: cookies.get('token') || '',
+            token: cookies.get('token') || "",
             loggedIn: cookies.get('token') ? true : false
         };
     }
@@ -44,19 +45,22 @@ class App extends React.Component{
         }
     }
 
+    LoginRedirect = <Redirect to="/login"/>
+
     render() {
         return (
             <BrowserRouter>
             <React.Fragment>
-                <main>
+                <main style={{ height: "100vh"}}>
                     <Header tokenHandle={this.sessionToken} loggedIn={this.state.loggedIn} />
                     <Sidebar />
                     <Switch>
-                        <PrivateRoute path="/" exact component={Dashboard}/>
-                        <PrivateRoute path="/jobs/new" exact component={FileDashboard}/>
+                        <PrivateRoute path="/" exact token={this.state.token} component={Dashboard} />
+                        <PrivateRoute path="/jobs/new" exact token={this.state.token} component={FileDashboard}/>
                         <PrivateRoute path="/jobs" exact token={this.state.token} component={FileList} />
                         <PrivateRoute path="/jobs/:id" exact token={this.state.token} component={Job} />
                         <PrivateRoute path="/shapes" exact component={Empty}/>
+                        <Route path="/login" exact render={(renderProps) => <Login {...renderProps} tokenHandle={this.sessionToken} token={this.state.token}/>} />
                     </Switch>
                 </main>
             </React.Fragment>
