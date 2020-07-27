@@ -36,8 +36,6 @@ class FileList extends Component {
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.description}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.userName}</NavLink></td>
                 </tr>
-            
-
         )
         return (
             <div className={Classes.page}>

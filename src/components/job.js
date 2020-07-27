@@ -33,6 +33,10 @@ class Job extends Component {
         )
     }
 
+    uploadFile = () => {
+        console.log("Upload File");
+    }
+
     updateName = (name) => {
         this.updateJob({
             jobName: name
@@ -58,7 +62,7 @@ class Job extends Component {
     }
 
     updateJob = (data) => {
-        Axios.put('/api/job/' + this.props.match.params.id, 
+        Axios.put(  '/api/job/' + this.props.match.params.id, 
                     data,
                     { //CONFIG
                         headers: {'Authorization': this.props.token}

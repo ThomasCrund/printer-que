@@ -16,7 +16,7 @@ class Sidebar extends React.Component{
                     {/* <img src="" alt="LOGO"/> */}
                 </div>
                 <div className={Classes.options}>
-                    <NavLink exact to="folder" activeClassName={Classes.active}>
+                    <NavLink exact to="jobs" activeClassName={Classes.active}>
                         <div className={Classes.images}>
                             <img src={folder} alt="folder" />
                         </div>
@@ -31,7 +31,7 @@ class Sidebar extends React.Component{
                             <img src={message} alt="message" />
                         </div>
                     </NavLink>
-                    <NavLink to="files" activeClassName={Classes.active}>
+                    <NavLink to="jobs/new" activeClassName={Classes.active}>
                         <div className={Classes.images}>
                             <img src={files} alt="files" />
                         </div>

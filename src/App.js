@@ -10,6 +10,8 @@ import {BrowserRouter,Route,Switch} from "react-router-dom";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import Job from './components/job';
+import PrivateRoute from './components/PrivateRoute';
+import Axios from 'axios';
 
 
 class App extends React.Component{
@@ -21,9 +23,25 @@ class App extends React.Component{
         super(props);
      
         const { cookies } = props;
+
         this.state = {
-            token: cookies.get('token') || ''
+            token: cookies.get('token') || '',
+            loggedIn: cookies.get('token') ? true : false
         };
+    }
+
+    async componentDidMount() {
+        try {
+            var token = true;
+            var orgInfo = await Axios.get("/api/org/", {headers: {'Authorization': this.state.token}})
+        } catch (error) {
+            token = false;
+        }
+        
+        console.log(orgInfo);
+        if (token === false) {
+            this.setState({ token: "", loggedIn: false });
+        }
     }
 
     render() {
@@ -31,14 +49,14 @@ class App extends React.Component{
             <BrowserRouter>
             <React.Fragment>
                 <main>
-                    <Header tokenHandle={this.sessionToken} />
+                    <Header tokenHandle={this.sessionToken} loggedIn={this.state.loggedIn} />
                     <Sidebar />
                     <Switch>
-                        <Route path="/" exact component={Dashboard}/>
-                        <Route path="/jobs/new" exact component={FileDashboard}/>
-                        <Route path="/jobs" exact> <FileList token={this.state.token}/> </Route>
-                        <Route path="/jobs/:id" exact render={(renderProps) => <Job {...renderProps} token={this.state.token}/>}/>
-                        <Route path="/shapes" exact component={Empty}/>
+                        <PrivateRoute path="/" exact component={Dashboard}/>
+                        <PrivateRoute path="/jobs/new" exact component={FileDashboard}/>
+                        <PrivateRoute path="/jobs" exact token={this.state.token} component={FileList} />
+                        <PrivateRoute path="/jobs/:id" exact token={this.state.token} component={Job} />
+                        <PrivateRoute path="/shapes" exact component={Empty}/>
                     </Switch>
                 </main>
             </React.Fragment>
@@ -46,12 +64,13 @@ class App extends React.Component{
         );
     }
 
-    sessionToken = (token) => {
+    sessionToken = (token, loggedIn) => {
         const { cookies } = this.props;
  
         cookies.set('token', token, { path: '/' });
-        this.setState({ token });
+        this.setState({ token, loggedIn });
     }
 };
+
 
 export default withCookies(App);

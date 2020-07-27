@@ -10,7 +10,7 @@ class Header extends React.Component{
     render(){
         return (
             <header className={Classes.header}>
-                <LoginButton tokenHandle={this.sessionToken} />
+                <LoginButton tokenHandle={this.sessionToken} loggedIn={this.props.loggedIn} />
                 {/*
                 <div className={Classes.border}>
                     <img className={Classes.images} src={bell} alt="notifications"/>
@@ -20,9 +20,9 @@ class Header extends React.Component{
         );
     }
 
-    sessionToken = (token) => {
+    sessionToken = (token, loggedIn) => {
         //console.log(token);
-        this.props.tokenHandle(token);
+        this.props.tokenHandle(token, loggedIn);
     }
 }
 
