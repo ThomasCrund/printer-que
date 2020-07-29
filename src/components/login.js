@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 class login extends React.Component {
 
     render() {
+        console.log("Test")
         return (
             <div style={{
                 display: "flex",

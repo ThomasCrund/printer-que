@@ -16,8 +16,7 @@ const s3 = new aws.S3({
 router.get('/', async function(req, res) {
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
     if (UserData.organisationId == null) { res.send({ 'inOrg': false, }); return; } //Check to make sure the user has an id
-    if (UserData.role === "user") { res.send({ 'inOrg': true, 'authorizeRank': false }); return; } //Check to make sure the user has the required rank
-
+    
     let queryRes = await database.query(`SELECT j.id,j.name jobName,j.description,j.priority,u.name userName, p.printerName 
     FROM job j
     LEFT JOIN (user u, printer p) ON (j.userId = u.id AND j.assignedPrinter = p.id)

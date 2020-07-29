@@ -12,7 +12,7 @@ class Job extends Component {
 
     async componentDidMount() {
 
-        console.log(this)
+        console.log(this.state)
         let response = await Axios.get('/api/job/' + this.props.match.params.id, {headers: {'Authorization': this.props.token}})
 
         

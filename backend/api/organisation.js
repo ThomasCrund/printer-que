@@ -61,7 +61,7 @@ router.get('/domain', async function(req, res) {
 
     if (UserData.domain == null) {
         res.send({
-            'orgAvalible': false,
+            'orgAvailable': false,
         })
         return;
     }
@@ -70,7 +70,7 @@ router.get('/domain', async function(req, res) {
 
     console.log(OrgData);
     res.send({
-        'orgAvalible': (OrgData.length > 0) ? true : false,
+        'orgAvailable': (OrgData.length > 0) ? true : false,
         'name': OrgData[0].name
     })
 })
