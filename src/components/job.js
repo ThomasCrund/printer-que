@@ -12,9 +12,7 @@ class Job extends Component {
 
     async componentDidMount() {
 
-        console.log(this.state)
         let response = await Axios.get('/api/job/' + this.props.match.params.id, {headers: {'Authorization': this.props.token}})
-
         
         if (response.data.success !== false) {
             console.log("success")
@@ -27,9 +25,8 @@ class Job extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
-            <div>Test</div>
+            <div style={{marginLeft: "120px"}}>{JSON.stringify(this.state.job, null, 2)}</div>
         )
     }
 

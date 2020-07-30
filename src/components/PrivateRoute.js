@@ -2,12 +2,13 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 
-function PrivateRoute ({component: Component, token, org, propsPass, orgPass, ...rest}) { 
+function PrivateRoute ({component: Component, token, org, propsPass, errorHandle, orgPass, ...rest}) {
+  console.log("Test");
   return (
       <Route
         {...rest}
         render={(props) => token !== ""
-          ? (org ? <Component {...props} token={token} orgPass={orgPass} propsPass={propsPass} /> : <Redirect to={{pathname: '/org', state: {from: props.location}}} />)
+          ? (org ? <Component {...props} token={token} orgPass={orgPass} errorHandle={errorHandle} propsPass={propsPass} /> : <Redirect to={{pathname: '/org', state: {from: props.location}}} />)
           : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
       />
     )

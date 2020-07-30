@@ -32,7 +32,7 @@ class FileList extends Component {
                 <tr key={job.id}>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.id}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.jobName}</NavLink></td>
-                    <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.priority}</NavLink></td>
+                    <td style={{width:"150px"}}><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.priority}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.description}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.userName}</NavLink></td>
                 </tr>

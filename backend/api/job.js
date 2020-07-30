@@ -53,7 +53,7 @@ router.post('/new', async function(req, res) {
     
     var UserData = await database.getUserData(req.UserId)  // Get the user's data
     if (UserData.organisationId == null) { res.send({ 'inOrg': false, }); return; } 
-    if (!req.body.jobName) { res.send({"success": false, "message": "A job name is needed for success"})}
+    if (!req.body.jobName) { res.send({"success": false, "message": "Please enter a job name"}); return; }
 
     let sql = `INSERT INTO job (name, description, settings, priority, userId, organisationId)
     VALUES ("${req.body.jobName}", "${req.body.description}", '${JSON.stringify(req.body.settings)}', ${req.body.priority}, '${req.UserId}', ${UserData.organisationId}  )`
@@ -134,7 +134,7 @@ router.get('/:id', async function(req, res) {
     let idParam = (parseInt(req.params.id));
     if (!Number.isInteger(idParam)) { res.send({ 'success': false, 'message': 'printerId not Integer', 'value': idParam }); return; } //Check to make sure the user has an id
     if (UserData.organisationId == null) { res.send({ 'inOrg': false, }); return; } //Check to make sure the user has an id
-    if (UserData.role === "user") { res.send({ 'inOrg': true, 'authorizeRank': false }); return; } //Check to make sure the user has the required rank
+    //if (UserData.role === "user") { res.send({ 'inOrg': true, 'authorizeRank': false }); return; } //Check to make sure the user has the required rank
 
     let queryRes = await database.query(`SELECT j.id,j.name jobName,j.description,j.priority,u.name userName, p.printerName, j.settings, j.fileLocation 
     FROM job j LEFT JOIN (user u, printer p) ON (j.userId = u.id AND j.assignedPrinter = p.id)

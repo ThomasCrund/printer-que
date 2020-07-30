@@ -31,11 +31,13 @@
     font-size: 14px;
     background-color: #6F52ED;
     height: 100%;
+    cursor: pointer;
 }
 
 .buttonTwo img{
     width: 20px;
     margin-top: 7px;
+    cursor: pointer;
 }
 
 .buttonTwo button{
@@ -43,6 +45,8 @@
     outline: none;
     border: none;
     color: #fff;
+    cursor: pointer;
+
 }
 
 .cardGrid{
@@ -103,6 +107,17 @@
     line-height: 24px;
     letter-spacing: 0.01em;
 }
+.secondTitle{
+    padding: 20px;
+    border-bottom: 1px solid #EEF0F7;
+    border-top: 1px solid #EEF0F7;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+}
+
 
 .sides{
     min-height: calc(68vh - 145px);
@@ -110,7 +125,6 @@
     background-color: #fff;
     border-radius: 10px;
     grid-area: c;
-    margin: 0 20px;
 }
 
 .side{
@@ -155,6 +169,7 @@
     width: 120px;
     padding: 5px 10px;
     background-color: #6F52ED;;
+    height: 30px;
 }
 
 @media(max-width:950px){
@@ -177,4 +192,18 @@
     .upload{
         min-height: 200px;
     }
+}
+
+.settingsArea {
+    height: 300px;
+    padding: 10px;
+}
+
+.descriptionArea {
+    padding: 10px;
+}
+
+.descriptionArea > textarea {
+    width: 100%;
+    height: 100px; 
 }
