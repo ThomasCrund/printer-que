@@ -13,7 +13,7 @@ export default class LoginButton extends Component {
     render() {
         let button;
 
-        if (this.state.loggedIn === false) {
+        if (this.props.loggedIn === false) {
             button = (<GoogleLogin
                 clientId="352457740735-jfb04rk50ha6orp611bei2sko4mfn6di.apps.googleusercontent.com"
                 buttonText="Login"
@@ -40,7 +40,7 @@ export default class LoginButton extends Component {
     }
 
     onSignIn = (googleUser) => {
-        this.props.tokenHandle("This is a test");
+        //this.props.tokenHandle("This is a test");
         var profile = googleUser.getBasicProfile();
         console.log("Email: " + profile.getEmail());
 
@@ -51,20 +51,20 @@ export default class LoginButton extends Component {
             { token: id_token})
         .then((response) => {
             console.log(response);
-            this.props.tokenHandle(response.data.sessionToken);
+            this.props.tokenHandle(response.data.sessionToken, true);
         })
         .catch((error) => {
             console.log(error);
-            this.setState({"loggedIn": false,})
+            //this.setState({"loggedIn": false,})
         });
 
-        this.setState({"loggedIn": true,})
+        //this.setState({"loggedIn": true,})
 
     }
 
-    onLogOut = (data) => {
-        console.log(data);
-        this.setState({"loggedIn": false,})
+    onLogOut = (data, loggedIn) => {
+        this.props.tokenHandle("", false);
+        //this.setState({"loggedIn": false,})
     }
     
     onFailure = (err) => {

@@ -13,8 +13,8 @@ class Cards extends React.Component{
                 <div className={Classes.card}>
                     <img src={blub} alt="insights"/>
                     <div>
-                        <h2 className={Classes.heading}>62</h2>
-                        <p className={Classes.info}>Jobs Completed</p>
+                        <h2 className={Classes.heading}>8</h2>
+                        <p className={Classes.info}>Jobs Queued</p>
                     </div>
                 </div>
 
@@ -29,16 +29,16 @@ class Cards extends React.Component{
                 <div className={Classes.card}>
                     <img src={underperfrom} alt="underperfrom"/>
                     <div>
-                        <h2 className={Classes.heading}>9 <span className={Classes.info}>(14%)</span></h2>
-                        <p className={Classes.info}>Jobs Queued</p>
+                        <h2 className={Classes.heading}>62</h2>
+                        <p className={Classes.info}>Job completed</p>
                     </div>
                 </div>
 
                 <div className={Classes.card}>
                     <img src={clock} alt="clock"/>
                     <div>
-                        <h2 className={Classes.heading}>2h 43m</h2>
-                        <p className={Classes.info}>Time Left</p>
+                        <h2 className={Classes.heading}>2</h2>
+                        <p className={Classes.info}>Printer's running</p>
                     </div>
                 </div>
             </div>

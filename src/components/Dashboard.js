@@ -18,10 +18,11 @@ class Dashboard extends React.Component{
                 <div>
                     <div className={Classes.sectionOne}>
                         <h1>Dashboard</h1>
-                        <div className={Classes.buttonOne}>
+                        {/*<div className={Classes.buttonOne}>
                             <img src={Edit} alt= "edit" />
                             <button>Edit job</button>
-                        </div>
+                        </div>*/}
+                        <div ></div>
                         <NavLink to="jobs/new" className={Classes.link}>
                             <div className={Classes.buttonTwo}>
                                 <img src={Plus} alt= "create new job" />
@@ -31,7 +32,7 @@ class Dashboard extends React.Component{
                     </div>
 
                     <Cards />
-                    <Showcase />
+                    <Showcase token={this.props.token}/>
 
                 </div>
             </div>

@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 110px 1fr;
     padding: 30px;
-
+    height: 90%;
 }
 
 .mainGrid h1 {
@@ -28,10 +28,12 @@
     align-items: center;
     padding: 0 10px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .buttonOne img{
     width: 15px;
+    cursor: pointer;
 }
 
 .buttonOne button{
@@ -39,6 +41,7 @@
     outline: none;
     border: none;
     color:#6F52ED;
+    cursor: pointer;
 }
 
 .buttonTwo{
@@ -52,10 +55,12 @@
     font-size: 14px;
     background-color: #6F52ED;
     height: 100%;
+    cursor: pointer;
 }
 
 .buttonTwo img{
     width: 15px;
+    cursor: pointer;
 }
 
 .buttonTwo button{
@@ -63,6 +68,7 @@
     outline: none;
     border: none;
     color: #fff;
+    cursor: pointer;
 }
 
 .link{
