@@ -47,6 +47,7 @@ class App extends React.Component{
             var orgInfo = await Axios.get("/api/org/", {headers: {'Authorization': this.state.token}})
         } catch (error) {
             token = false;
+            console.log(error);
         }
         
         //console.log(orgInfo);

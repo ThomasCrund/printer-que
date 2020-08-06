@@ -32,7 +32,7 @@ class FileList extends Component {
                 <tr key={job.id}>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.id}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.jobName}</NavLink></td>
-                    <td style={{width:"150px"}}><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.priority}</NavLink></td>
+                    <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.priority}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.description}</NavLink></td>
                     <td><NavLink to={"jobs/" + job.id}  className={Classes.link}>{job.userName}</NavLink></td>
                 </tr>
@@ -49,13 +49,13 @@ class FileList extends Component {
                         </NavLink>
                     </div>
                 <div className={Classes.card}>
-                    <table>
+                    <table border="1">
                         <thead>
                             <tr>
                                 <td>Id</td>
                                 <td>Name</td>
                                 <td>Priority</td>
-                                <td>Description</td>
+                                <td style={{width:"150px"}}>Description</td>
                                 <td>User</td>
                             </tr>
                         </thead>

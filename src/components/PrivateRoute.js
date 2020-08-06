@@ -3,7 +3,6 @@ import { Route, Redirect } from 'react-router-dom'
 
 
 function PrivateRoute ({component: Component, token, org, propsPass, errorHandle, orgPass, ...rest}) {
-  console.log("Test");
   return (
       <Route
         {...rest}

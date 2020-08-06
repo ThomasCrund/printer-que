@@ -40,7 +40,7 @@ export default class LoginButton extends Component {
     }
 
     onSignIn = (googleUser) => {
-        this.props.tokenHandle("This is a test");
+        //this.props.tokenHandle("This is a test");
         var profile = googleUser.getBasicProfile();
         console.log("Email: " + profile.getEmail());
 

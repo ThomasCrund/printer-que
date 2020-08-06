@@ -1,19 +1,20 @@
-.shwocaseGrid{
+.showcaseGrid{
     display: grid;
     grid-template-columns: 3fr 1fr;
     column-gap: 10px;
+    height: 45px;
+
 }
 
 .first{
     min-height: 65vh;
-    max-height: 65vh;
     background-color: #fff;
     border-radius: 10px;
 }
 
 .second{
     min-height: 65vh;
-    max-height: 65vh;
+    height: 45px;
     background-color: #fff;
     border-radius: 10px;
     overflow-y: auto;
@@ -91,11 +92,9 @@
 @media(max-height: 900px){
     .first{
         min-height: 45vh;
-        max-height: 45vh;
     }
     
     .second{
         min-height: 45vh;
-        max-height: 45vh;
     }
 }

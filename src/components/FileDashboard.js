@@ -58,7 +58,7 @@ class FileDashboard extends React.Component{
                                 <p>Printer Settings</p>
                             </div>
                             <div className={Classes.settingsArea}>
-                                Why Should I put settings for you to use
+                                Explain what printer settings you would like applied to your job(s)?
                             </div>
                             <div className={Classes.secondTitle}>
                                 <p>Description</p>
